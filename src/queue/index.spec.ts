@@ -1,4 +1,5 @@
 import type { ConfigService } from '@nestjs/config';
+import type { RedisOptions } from 'bullmq';
 import { configBullMQ } from './index';
 
 type MockConfigService = {
@@ -23,7 +24,9 @@ describe('nesthub/queue', () => {
       });
       const result = configBullMQ(config as unknown as ConfigService);
 
-      expect(result.connection.url).toBe('valkey://localhost:6379');
+      expect((result.connection as RedisOptions).url).toBe(
+        'valkey://localhost:6379',
+      );
       expect(config.get).toHaveBeenCalledWith('VALKEY_URL');
     });
 
@@ -35,7 +38,9 @@ describe('nesthub/queue', () => {
         store: 'redis',
       });
 
-      expect(result.connection.url).toBe('redis://localhost:6379');
+      expect((result.connection as RedisOptions).url).toBe(
+        'redis://localhost:6379',
+      );
       expect(config.get).toHaveBeenCalledWith('REDIS_URL');
     });
 
@@ -84,16 +89,20 @@ describe('nesthub/queue', () => {
       expect(result.defaultJobOptions).toEqual({
         attempts: 3,
         removeOnComplete: 100,
+        removeOnFail: true,
       });
     });
 
-    it('should return undefined defaultJobOptions when not set', () => {
+    it('should return defaultJobOptions with auto-removal when not set', () => {
       const config = createMockConfigService({
         VALKEY_URL: 'valkey://localhost:6379',
       });
       const result = configBullMQ(config as unknown as ConfigService);
 
-      expect(result.defaultJobOptions).toBeUndefined();
+      expect(result.defaultJobOptions).toEqual({
+        removeOnComplete: true,
+        removeOnFail: true,
+      });
     });
   });
 });

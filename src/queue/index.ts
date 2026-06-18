@@ -1,21 +1,17 @@
 import type { ConfigService } from '@nestjs/config';
+import type { BullRootModuleOptions } from '@nestjs/bullmq';
+import type { DefaultJobOptions } from 'bullmq';
 
 export interface QueueModuleOptions {
   store?: 'valkey' | 'redis';
   prefix?: string;
-  defaultJobOptions?: Record<string, unknown>;
-}
-
-export interface BullMQModuleOptions {
-  connection: { url: string };
-  prefix: string;
-  defaultJobOptions?: Record<string, unknown>;
+  defaultJobOptions?: DefaultJobOptions;
 }
 
 export function configBullMQ(
   configService: ConfigService,
   options?: QueueModuleOptions,
-): BullMQModuleOptions {
+): BullRootModuleOptions {
   const { store = 'valkey', prefix, defaultJobOptions } = options ?? {};
   const envKey = store === 'valkey' ? 'VALKEY_URL' : 'REDIS_URL';
   const url = configService.get<string>(envKey);
@@ -25,6 +21,10 @@ export function configBullMQ(
   return {
     connection: { url },
     prefix: prefix ?? '{default}',
-    defaultJobOptions,
+    defaultJobOptions: {
+      removeOnComplete: true,
+      removeOnFail: true,
+      ...defaultJobOptions,
+    },
   };
 }

@@ -79,4 +79,4 @@ BullModule.forRootAsync({
 |---|---|---|
 | `store` | `'valkey'` | Backend store: `'valkey'` or `'redis'` |
 | `prefix` | `'{default}'` | BullMQ key prefix |
-| `defaultJobOptions` | — | Default job options for all queues (e.g. `{ attempts: 3 }`) |
+| `defaultJobOptions` | `{ removeOnComplete: true, removeOnFail: true }` | Default job options (auto-removes jobs to prevent memory overflow; override by passing same keys) |

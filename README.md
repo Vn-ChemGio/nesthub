@@ -12,7 +12,6 @@ npm install nesthub
 
 | Import path | Description | README |
 |---|---|---|
-| `nesthub` | Version constant (`VERSION`) | — |
 | `nesthub/typeorm` | TypeORM configuration helpers (RDS PostgreSQL, MySQL) | [README](src/typeorm/README.md) |
 | `nesthub/cache` | Global cache module with Valkey / Redis backend | [README](src/cache/README.md) |
 | `nesthub/queue` | BullMQ config factory for Valkey / Redis backend | [README](src/queue/README.md) |
