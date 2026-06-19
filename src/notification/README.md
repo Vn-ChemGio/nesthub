@@ -235,3 +235,56 @@ export class AppModule {}
 | `createdAt` | `created_at` |
 | `updatedAt` | `updated_at` |
 | `sentAt` | `sent_at` |
+
+## Telegram Channel
+
+### Configuration
+
+```typescript
+channels: {
+  telegram: { botToken: '123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11' },
+}
+```
+
+### Sending messages
+
+**Text only** — sends via `/sendMessage`:
+```typescript
+await notification.send({
+  channel: 'telegram',
+  to: '1077316390',
+  content: '<b>Hello</b> from HTML',
+});
+```
+
+**With file attachment** — sends via `/sendDocument`, `content` becomes the caption:
+```typescript
+await notification.send({
+  channel: 'telegram',
+  to: '1077316390',
+  content: 'Report attached',
+  attachments: [{ filename: 'report.xlsx', content: buffer }],
+});
+```
+
+**Multiple files** — sends via `/sendMediaGroup` (single request), caption on last file:
+```typescript
+await notification.send({
+  channel: 'telegram',
+  to: '1077316390',
+  content: 'Monthly reports',
+  attachments: [
+    { filename: 'jan.xlsx', content: buf1 },
+    { filename: 'feb.xlsx', content: buf2 },
+  ],
+});
+```
+
+**Attachment from file path:**
+```typescript
+await notification.send({
+  channel: 'telegram',
+  to: '1077316390',
+  attachments: [{ filename: 'photo.jpg', path: '/tmp/photo.jpg' }],
+});
+```

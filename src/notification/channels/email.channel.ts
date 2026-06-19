@@ -49,9 +49,9 @@ export class EmailChannel implements NotificationChannel {
       const mailOptions: Record<string, unknown> = {
         to: Array.isArray(input.to) ? input.to.join(', ') : input.to,
         subject: input.subject,
-        html: input.content,
       };
 
+      if (input.content) mailOptions.html = input.content;
       if (input.sender) mailOptions.from = input.sender;
       if (input.attachments?.length)
         mailOptions.attachments = input.attachments;

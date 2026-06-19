@@ -2,11 +2,25 @@
 import type {
   SendNotificationInput,
   FirebaseChannelConfig,
+  Attachment,
 } from '../interfaces';
 import type {
   NotificationChannel,
   SendChannelResult,
 } from './channel.interface';
+
+function serializeAttachments(attachments: Attachment[]): string {
+  return JSON.stringify(
+    attachments.map((a) => ({
+      filename: a.filename,
+      contentType: a.contentType,
+      content:
+        a.content instanceof Buffer
+          ? a.content.toString('base64')
+          : (a.content ?? null),
+    })),
+  );
+}
 
 export class FirebaseChannel implements NotificationChannel {
   readonly channelType = 'firebase';
@@ -61,6 +75,13 @@ export class FirebaseChannel implements NotificationChannel {
         },
         data: input.metadata,
       };
+
+      if (input.attachments?.length) {
+        message.data = {
+          ...(message.data as Record<string, string>),
+          _attachments: serializeAttachments(input.attachments),
+        };
+      }
 
       const response = await (admin as any)
         .messaging()

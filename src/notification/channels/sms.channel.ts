@@ -58,6 +58,13 @@ export class SmsChannel implements NotificationChannel {
         case 'http': {
           const url = this.config.credentials.url;
           if (!url) return { success: false, error: 'HTTP URL not configured' };
+          const body: Record<string, unknown> = {
+            to,
+            content: input.content,
+            from: input.sender ?? this.config.from,
+            ...input.metadata,
+          };
+          if (input.attachments?.length) body.attachments = input.attachments;
           const response = await fetch(url, {
             method: 'POST',
             headers: {
@@ -66,12 +73,7 @@ export class SmsChannel implements NotificationChannel {
                 ? `Bearer ${this.config.credentials.apiKey}`
                 : '',
             },
-            body: JSON.stringify({
-              to,
-              content: input.content,
-              from: input.sender ?? this.config.from,
-              ...input.metadata,
-            }),
+            body: JSON.stringify(body),
           });
           if (!response.ok) {
             return {
