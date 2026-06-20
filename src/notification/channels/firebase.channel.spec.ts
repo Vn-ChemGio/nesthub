@@ -251,7 +251,8 @@ describe('FirebaseChannel', () => {
 
       const message = mockSendEachForMulticast.mock.calls[0][0];
       expect(message.data._attachments).toBeDefined();
-      const parsed = JSON.parse(message.data._attachments);
+      const raw = String(message.data._attachments);
+      const parsed = JSON.parse(raw) as Array<Record<string, unknown>>;
       expect(parsed).toHaveLength(1);
       expect(parsed[0]).toMatchObject({
         filename: 'report.pdf',

@@ -1,6 +1,6 @@
 {
   "name": "nesthub",
-  "version": "1.1.0",
+  "version": "1.2.0-alpha.1",
   "description": "All-in-one modular toolkit for NestJS",
   "keywords": [
     "nestjs",
@@ -21,7 +21,16 @@
     "scalar",
     "api-docs",
     "api-reference",
-    "excel"
+    "excel",
+    "auth",
+    "authentication",
+    "oauth",
+    "jwt",
+    "2fa",
+    "passkey",
+    "magic-link",
+    "sso",
+    "onetap"
   ],
   "author": "Wind Blade <vn.chemgio@yahoo.com> (https://github.com/Vn-ChemGio)",
   "funding": {
@@ -78,6 +87,11 @@
       "types": "./dist/swagger/index.d.ts",
       "import": "./dist/swagger/index.js",
       "require": "./dist/swagger/index.js"
+    },
+    "./auth": {
+      "types": "./dist/auth/index.d.ts",
+      "import": "./dist/auth/index.js",
+      "require": "./dist/auth/index.js"
     }
   },
   "typesVersions": {
@@ -99,6 +113,9 @@
       ],
       "swagger": [
         "./dist/swagger/index.d.ts"
+      ],
+      "auth": [
+        "./dist/auth/index.d.ts"
       ]
     }
   },
@@ -115,10 +132,11 @@
     "src/queue/README.md",
     "src/notification/README.md",
     "src/excel/README.md",
-    "src/swagger/README.md"
+    "src/swagger/README.md",
+    "src/auth/README.md"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.build.json && node -e \"require('fs').copyFileSync('src/typeorm/README.md','dist/typeorm/README.md');require('fs').copyFileSync('src/cache/README.md','dist/cache/README.md');require('fs').copyFileSync('src/queue/README.md','dist/queue/README.md');require('fs').copyFileSync('src/notification/README.md','dist/notification/README.md');require('fs').copyFileSync('src/excel/README.md','dist/excel/README.md');require('fs').copyFileSync('src/swagger/README.md','dist/swagger/README.md')\"",
+    "build": "tsc -p tsconfig.build.json && node -e \"require('fs').copyFileSync('src/typeorm/README.md','dist/typeorm/README.md');require('fs').copyFileSync('src/cache/README.md','dist/cache/README.md');require('fs').copyFileSync('src/queue/README.md','dist/queue/README.md');require('fs').copyFileSync('src/notification/README.md','dist/notification/README.md');require('fs').copyFileSync('src/excel/README.md','dist/excel/README.md');require('fs').copyFileSync('src/swagger/README.md','dist/swagger/README.md');require('fs').copyFileSync('src/auth/README.md','dist/auth/README.md')\"",
     "clean": "rimraf dist",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "lint": "eslint \"{src,test}/**/*.ts\" --fix",
@@ -136,19 +154,44 @@
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.4",
     "@nestjs/core": "^11.0.1",
+    "@nestjs/jwt": "^11.0.0",
+    "@nestjs/passport": "^11.0.0",
     "@nestjs/swagger": "^11.0.0",
     "@nestjs/typeorm": "^11.0.1",
     "@scalar/api-reference": "^1.60.0",
     "@scalar/nestjs-api-reference": "^1.0.0",
+    "bcrypt": "^5.1.1",
     "bullmq": "^5.44.0",
+    "class-validator": "^0.14.0",
     "exceljs": "^4.4.0",
     "firebase-admin": "^13.0.2",
     "handlebars": "^4.7.8",
     "nodemailer": "8.0.5",
+    "otplib": "^12.0.1",
+    "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
     "rxjs": "^7.8.1",
     "twilio": "^5.4.0"
   },
   "peerDependenciesMeta": {
+    "@nestjs/jwt": {
+      "optional": true
+    },
+    "@nestjs/passport": {
+      "optional": true
+    },
+    "passport": {
+      "optional": true
+    },
+    "passport-jwt": {
+      "optional": true
+    },
+    "bcrypt": {
+      "optional": true
+    },
+    "otplib": {
+      "optional": true
+    },
     "@nestjs/typeorm": {
       "optional": true
     },
@@ -182,6 +225,9 @@
     "firebase-admin": {
       "optional": true
     },
+    "class-validator": {
+      "optional": true
+    },
     "exceljs": {
       "optional": true
     },
@@ -207,13 +253,20 @@
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.4",
     "@nestjs/core": "^11.0.1",
+    "@nestjs/jwt": "^11.0.2",
+    "@nestjs/passport": "^11.0.5",
     "@nestjs/swagger": "^11.0.0",
     "@nestjs/testing": "^11.0.1",
     "@nestjs/typeorm": "^11.0.1",
     "@scalar/nestjs-api-reference": "^1.0.0",
+    "@types/bcrypt": "^6.0.0",
     "@types/jest": "^30.0.0",
     "@types/node": "^24.0.0",
+    "@types/passport": "^1.0.17",
+    "@types/passport-jwt": "^4.0.1",
+    "bcrypt": "^5.1.1",
     "bullmq": "^5.44.0",
+    "class-validator": "^0.14.4",
     "eslint": "^9.18.0",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.2.2",
@@ -223,6 +276,9 @@
     "handlebars": "^4.7.8",
     "jest": "^30.0.0",
     "nodemailer": "8.0.5",
+    "otplib": "^12.0.1",
+    "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
     "prettier": "^3.4.2",
     "rimraf": "^6.0.1",
     "rxjs": "^7.8.1",
