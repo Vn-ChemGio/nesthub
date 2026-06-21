@@ -1,4 +1,4 @@
-# @nesthub/swagger
+# nesthub/swagger
 
 Scalar API reference for NestJS — powered by `@scalar/nestjs-api-reference`.
 
