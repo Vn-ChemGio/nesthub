@@ -124,13 +124,18 @@ export class S3Driver implements StorageDriver {
     const client = await this.ensureClient();
     const { PutObjectCommand } = await import('@aws-sdk/client-s3');
     const { getSignedUrl } = await import('@aws-sdk/s3-request-presigner');
-    const expiresIn = options?.expiresIn ?? this.config.presignedUrl?.expiresIn ?? 3600;
-    return getSignedUrl(client, new PutObjectCommand({
-      Bucket: this.config.bucket,
-      Key: key,
-      Metadata: options?.metadata,
-      ContentType: options?.contentType,
-    }), { expiresIn });
+    const expiresIn =
+      options?.expiresIn ?? this.config.presignedUrl?.expiresIn ?? 3600;
+    return getSignedUrl(
+      client,
+      new PutObjectCommand({
+        Bucket: this.config.bucket,
+        Key: key,
+        Metadata: options?.metadata,
+        ContentType: options?.contentType,
+      }),
+      { expiresIn },
+    );
   }
 
   async presignedUrlGet(
@@ -140,11 +145,16 @@ export class S3Driver implements StorageDriver {
     const client = await this.ensureClient();
     const { GetObjectCommand } = await import('@aws-sdk/client-s3');
     const { getSignedUrl } = await import('@aws-sdk/s3-request-presigner');
-    const expiresIn = options?.expiresIn ?? this.config.presignedUrl?.expiresIn ?? 3600;
-    return getSignedUrl(client, new GetObjectCommand({
-      Bucket: this.config.bucket,
-      Key: key,
-    }), { expiresIn });
+    const expiresIn =
+      options?.expiresIn ?? this.config.presignedUrl?.expiresIn ?? 3600;
+    return getSignedUrl(
+      client,
+      new GetObjectCommand({
+        Bucket: this.config.bucket,
+        Key: key,
+      }),
+      { expiresIn },
+    );
   }
 
   async putWithOptions(
