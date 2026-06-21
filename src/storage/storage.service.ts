@@ -1,7 +1,12 @@
 import { Injectable, Inject, Logger } from '@nestjs/common';
 import { STORAGE_DRIVERS, STORAGE_DEFAULT_DISK } from './storage.constants.js';
 import type { StorageDriver } from './drivers/driver.interface.js';
-import type { FileResult, ListResult, PutFileOptions, PresignedUrlOptions } from './interfaces.js';
+import type {
+  FileResult,
+  ListResult,
+  PutFileOptions,
+  PresignedUrlOptions,
+} from './interfaces.js';
 
 @Injectable()
 export class StorageService {

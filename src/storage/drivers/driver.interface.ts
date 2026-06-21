@@ -1,4 +1,9 @@
-import type { FileResult, ListResult, PutFileOptions, PresignedUrlOptions } from '../interfaces.js';
+import type {
+  FileResult,
+  ListResult,
+  PutFileOptions,
+  PresignedUrlOptions,
+} from '../interfaces.js';
 
 export interface StorageDriver {
   put(
@@ -24,13 +29,7 @@ export interface StorageDriver {
     options?: PutFileOptions,
   ): Promise<FileResult>;
 
-  presignedUrlPut(
-    key: string,
-    options?: PresignedUrlOptions,
-  ): Promise<string>;
+  presignedUrlPut(key: string, options?: PresignedUrlOptions): Promise<string>;
 
-  presignedUrlGet(
-    key: string,
-    options?: PresignedUrlOptions,
-  ): Promise<string>;
+  presignedUrlGet(key: string, options?: PresignedUrlOptions): Promise<string>;
 }
