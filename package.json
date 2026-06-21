@@ -1,6 +1,6 @@
 {
   "name": "nesthub",
-  "version": "1.2.0-alpha.3",
+  "version": "1.2.0",
   "description": "All-in-one modular toolkit for NestJS",
   "keywords": [
     "nestjs",
@@ -92,6 +92,26 @@
       "types": "./dist/auth/index.d.ts",
       "import": "./dist/auth/index.js",
       "require": "./dist/auth/index.js"
+    },
+    "./storage": {
+      "types": "./dist/storage/index.d.ts",
+      "import": "./dist/storage/index.js",
+      "require": "./dist/storage/index.js"
+    },
+    "./logger": {
+      "types": "./dist/logger/index.d.ts",
+      "import": "./dist/logger/index.js",
+      "require": "./dist/logger/index.js"
+    },
+    "./audit-log": {
+      "types": "./dist/audit-log/index.d.ts",
+      "import": "./dist/audit-log/index.js",
+      "require": "./dist/audit-log/index.js"
+    },
+    "./activity-feed": {
+      "types": "./dist/activity-feed/index.d.ts",
+      "import": "./dist/activity-feed/index.js",
+      "require": "./dist/activity-feed/index.js"
     }
   },
   "typesVersions": {
@@ -116,6 +136,18 @@
       ],
       "auth": [
         "./dist/auth/index.d.ts"
+      ],
+      "storage": [
+        "./dist/storage/index.d.ts"
+      ],
+      "logger": [
+        "./dist/logger/index.d.ts"
+      ],
+      "audit-log": [
+        "./dist/audit-log/index.d.ts"
+      ],
+      "activity-feed": [
+        "./dist/activity-feed/index.d.ts"
       ]
     }
   },
@@ -134,10 +166,14 @@
     "src/notification/README.md",
     "src/excel/README.md",
     "src/swagger/README.md",
-    "src/auth/README.md"
+    "src/auth/README.md",
+    "src/storage/README.md",
+    "src/logger/README.md",
+    "src/audit-log/README.md",
+    "src/activity-feed/README.md"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.build.json && node -e \"require('fs').copyFileSync('src/typeorm/README.md','dist/typeorm/README.md');require('fs').copyFileSync('src/cache/README.md','dist/cache/README.md');require('fs').copyFileSync('src/queue/README.md','dist/queue/README.md');require('fs').copyFileSync('src/notification/README.md','dist/notification/README.md');require('fs').copyFileSync('src/excel/README.md','dist/excel/README.md');require('fs').copyFileSync('src/swagger/README.md','dist/swagger/README.md');require('fs').copyFileSync('src/auth/README.md','dist/auth/README.md')\"",
+    "build": "tsc -p tsconfig.build.json && node -e \"require('fs').copyFileSync('src/typeorm/README.md','dist/typeorm/README.md');require('fs').copyFileSync('src/cache/README.md','dist/cache/README.md');require('fs').copyFileSync('src/queue/README.md','dist/queue/README.md');require('fs').copyFileSync('src/notification/README.md','dist/notification/README.md');require('fs').copyFileSync('src/excel/README.md','dist/excel/README.md');require('fs').copyFileSync('src/swagger/README.md','dist/swagger/README.md');require('fs').copyFileSync('src/auth/README.md','dist/auth/README.md');require('fs').copyFileSync('src/storage/README.md','dist/storage/README.md');require('fs').copyFileSync('src/logger/README.md','dist/logger/README.md');require('fs').copyFileSync('src/audit-log/README.md','dist/audit-log/README.md');require('fs').copyFileSync('src/activity-feed/README.md','dist/activity-feed/README.md')\"",
     "clean": "rimraf dist",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "lint": "eslint \"{src,test}/**/*.ts\" --fix",
@@ -148,6 +184,8 @@
     "prepack": "npm run build"
   },
   "peerDependencies": {
+    "@aws-sdk/client-s3": "^3.750.0",
+    "@aws-sdk/s3-request-presigner": "^3.750.0",
     "@aws-sdk/client-sns": "^3.750.0",
     "@keyv/redis": "^5.1.6",
     "@keyv/valkey": "^1.0.11",
@@ -166,12 +204,17 @@
     "class-validator": "^0.14.0",
     "exceljs": "^4.4.0",
     "firebase-admin": "^13.0.2",
+    "googleapis": "^144.0.0",
     "handlebars": "^4.7.8",
     "nodemailer": "8.0.5",
     "otplib": "^12.0.1",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
+    "pino": "^9.0.0",
+    "prom-client": "^15.0.0",
     "rxjs": "^7.8.1",
+    "sharp": "^0.33.0",
+    "stripe": "^17.0.0",
     "twilio": "^5.4.0"
   },
   "peerDependenciesMeta": {
@@ -182,6 +225,15 @@
       "optional": true
     },
     "passport": {
+      "optional": true
+    },
+    "pino": {
+      "optional": true
+    },
+    "prom-client": {
+      "optional": true
+    },
+    "stripe": {
       "optional": true
     },
     "passport-jwt": {
@@ -226,10 +278,22 @@
     "firebase-admin": {
       "optional": true
     },
+    "googleapis": {
+      "optional": true
+    },
     "class-validator": {
       "optional": true
     },
     "exceljs": {
+      "optional": true
+    },
+    "sharp": {
+      "optional": true
+    },
+    "@aws-sdk/client-s3": {
+      "optional": true
+    },
+    "@aws-sdk/s3-request-presigner": {
       "optional": true
     },
     "@nestjs/swagger": {
@@ -245,7 +309,9 @@
     "reflect-metadata": "^0.2.2"
   },
   "devDependencies": {
+    "@aws-sdk/client-s3": "^3.1073.0",
     "@aws-sdk/client-sns": "^3.750.0",
+    "@aws-sdk/s3-request-presigner": "^3.1073.0",
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.18.0",
     "@keyv/redis": "^5.1.6",
@@ -261,11 +327,13 @@
     "@nestjs/typeorm": "^11.0.1",
     "@scalar/nestjs-api-reference": "^1.0.0",
     "@types/bcrypt": "^6.0.0",
+    "@types/better-sqlite3": "^7.6.13",
     "@types/jest": "^30.0.0",
-    "@types/node": "^24.0.0",
+    "@types/node": "^24.13.2",
     "@types/passport": "^1.0.17",
     "@types/passport-jwt": "^4.0.1",
     "bcrypt": "^5.1.1",
+    "better-sqlite3": "^12.11.1",
     "bullmq": "^5.44.0",
     "class-validator": "^0.14.4",
     "eslint": "^9.18.0",
@@ -274,15 +342,21 @@
     "exceljs": "^4.4.0",
     "firebase-admin": "^13.0.2",
     "globals": "^17.0.0",
+    "googleapis": "^173.0.0",
     "handlebars": "^4.7.8",
     "jest": "^30.0.0",
     "nodemailer": "8.0.5",
     "otplib": "^12.0.1",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
+    "pino": "^10.3.1",
+    "pino-pretty": "^13.1.3",
     "prettier": "^3.4.2",
+    "prom-client": "^15.1.3",
     "rimraf": "^6.0.1",
     "rxjs": "^7.8.1",
+    "sharp": "^0.35.2",
+    "stripe": "^22.2.2",
     "ts-jest": "^29.2.5",
     "twilio": "^5.4.0",
     "typescript": "^5.7.3",
