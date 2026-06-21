@@ -101,7 +101,10 @@ function buildDefaultOptions(options?: AuthModuleOptions): AuthModuleOptions {
 function hasOAuth(opts: AuthModuleOptions): boolean {
   if (!opts.oauth) return false;
   return Object.values(opts.oauth).some(
-    (v) => v !== undefined && 'clientId' in v && v.enabled !== false,
+    (v) =>
+      v !== undefined &&
+      'clientId' in v &&
+      (v as { enabled?: boolean }).enabled !== false,
   );
 }
 
