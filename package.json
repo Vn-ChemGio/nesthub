@@ -185,8 +185,8 @@
   },
   "peerDependencies": {
     "@aws-sdk/client-s3": "^3.750.0",
-    "@aws-sdk/s3-request-presigner": "^3.750.0",
     "@aws-sdk/client-sns": "^3.750.0",
+    "@aws-sdk/s3-request-presigner": "^3.750.0",
     "@keyv/redis": "^5.1.6",
     "@keyv/valkey": "^1.0.11",
     "@nestjs/bullmq": "^11.0.0",
@@ -342,6 +342,7 @@
     "class-validator": "^0.14.4",
     "eslint": "^9.18.0",
     "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-import-x": "^4.17.0",
     "eslint-plugin-prettier": "^5.2.2",
     "exceljs": "^4.4.0",
     "firebase-admin": "^13.0.2",
